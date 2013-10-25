@@ -298,7 +298,11 @@
 		// Note: this does not affect zooming outside of the parent
 		// Set this value to 'invert' to only allow panning outside of the parent element (basically the opposite of the normal use of contain)
 		// 'invert' is useful for a large panzoom element where you don't want to show anything behind it
-		contain: false
+		contain: false,
+    
+    // The mouse buttons which can be used for panning: 1 = left, 2 = middle,
+    // 3 = right.
+    mouseButtons: [1]
 	};
 
 	Panzoom.prototype = {
@@ -788,8 +792,8 @@
 				events[ str_start ] = function( e ) {
 					var touches;
 					if ( e.type === 'mousedown' ?
-						// Ignore right click when handling a click
-						!options.disablePan && e.which === 1 :
+						// Ignore buttons not specified in options.mouseButtons
+						!options.disablePan && $.inArray( e.which, options.mouseButtons ) !== -1 :
 						// Touch
 						(touches = e.touches) && ((touches.length === 1 && !options.disablePan) || touches.length === 2) ) {
 
